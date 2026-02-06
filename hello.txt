@@ -1,2 +1,0 @@
-Hello Jenkins
-This is my first CI test.
