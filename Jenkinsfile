@@ -3,28 +3,27 @@ pipeline {
 
     stages {
 
-        stage('Test') {
-            steps {
-                sh 'whoami'
-                sh 'docker --version'
-            }
-        }
- 
-        stage('Build Image') {
-            steps {
-                sh 'docker build -t myapp .'
-            }
-        }
-
-        stage('Run Container') {
+        stage('Build & Run Container') {
             steps {
                 sh """
                 docker rm -f myapp-container || true
-                docker run -d -p 8081:80 --name myapp-container myapp
+                docker build -t myapp .
+                docker run -d -p 8082:8080 --name myapp-container myapp
                 """
             }
         }
 
     }
+
+    post {
+        success {
+            echo '🚀 Deployment Successful!'
+        }
+        failure {
+            echo '❌ Deployment Failed!'
+        }
+    }
 }
+
+
 
