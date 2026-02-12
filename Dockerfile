@@ -1,25 +1,14 @@
-# -------- Stage 1: Build Stage --------
-FROM maven:3.9.6-eclipse-temurin-17 AS builder
+# Simple Nginx Image
+FROM nginx:latest
 
-WORKDIR /app
+# Remove default nginx html
+RUN rm -rf /usr/share/nginx/html/*
 
-COPY pom.xml .
-RUN mvn dependency:go-offline
+# Copy custom index file (optional)
+COPY index.html /usr/share/nginx/html/
 
-COPY src ./src
+EXPOSE 80
 
-RUN mvn clean package -DskipTests
-
-
-# -------- Stage 2: Runtime Stage --------
-FROM eclipse-temurin:17-jdk-alpine
-
-WORKDIR /app
-
-COPY --from=builder /app/target/*.jar app.jar
-
-EXPOSE 8080
-
-ENTRYPOINT ["java","-jar","app.jar"]
+CMD ["nginx", "-g", "daemon off;"]
 
 
