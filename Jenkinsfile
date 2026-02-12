@@ -11,13 +11,12 @@ pipeline {
 
         stage('Run Container') {
             steps {
-                sh '''
+                sh """
                 docker rm -f myapp-container || true
                 docker run -d -p 8081:80 --name myapp-container myapp
-                '''
+                """
             }
         }
+
     }
 }
-
-
