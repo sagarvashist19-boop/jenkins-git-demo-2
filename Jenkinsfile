@@ -9,7 +9,7 @@ pipeline {
                 sh 'docker --version'
             }
         }
-
+ 
         stage('Build Image') {
             steps {
                 sh 'docker build -t myapp .'
