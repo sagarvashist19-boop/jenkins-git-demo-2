@@ -3,6 +3,13 @@ pipeline {
 
     stages {
 
+        stage('Test') {
+            steps {
+                sh 'whoami'
+                sh 'docker --version'
+            }
+        }
+
         stage('Build Image') {
             steps {
                 sh 'docker build -t myapp .'
@@ -20,3 +27,4 @@ pipeline {
 
     }
 }
+
